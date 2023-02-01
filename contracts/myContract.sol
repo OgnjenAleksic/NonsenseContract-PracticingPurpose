@@ -34,8 +34,8 @@ contract myContract is Modifier {
             gas: 10000,
             value: msg.value
         }("");
-        depositors.push(msg.sender);
         if (!sent) revert myContract_EtherNotSent();
+        depositors.push(msg.sender);
     }
 
     function withdraw() public onlyOwner {}
