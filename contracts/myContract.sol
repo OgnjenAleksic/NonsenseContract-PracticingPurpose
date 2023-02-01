@@ -16,22 +16,34 @@ contract myContract is Modifier {
         i_minimum = _minimum;
     }
 
+    function getContractCode(
+        address contractAddress
+    ) public view returns (bytes memory) {
+        bytes memory contractCode = contractAddress.code;
+        return contractCode;
+    }
+
     function depositUsingSend(address _to) public payable {
-        bool sent = payable(_to).send(msg.value);
-        if (!sent) revert myContract_EtherNotSent();
-    }
-
-    function depositUsingCall(address _to) public payable {
-        (bool sent, ) = payable(_to).call{gas: 10000, value: msg.value}("");
-        if (!sent) revert myContract_EtherNotSent();
-    }
-
-    function deposit() public payable {
         require(
             msg.value > i_minimum,
             "You deposited less than minimum amount"
         );
+        bool sent = payable(_to).send(msg.value);
+        if (!sent) revert myContract_EtherNotSent();
         depositors.push(msg.sender);
+    }
+
+    function depositUsingCall(address _to) public payable {
+        require(
+            msg.value > i_minimum,
+            "You deposited less than minimum amount"
+        );
+        (bool sent /* bytes memory returnData */, ) = payable(_to).call{
+            gas: 10000,
+            value: msg.value
+        }("");
+        depositors.push(msg.sender);
+        if (!sent) revert myContract_EtherNotSent();
     }
 
     function withdraw() public onlyOwner {}
