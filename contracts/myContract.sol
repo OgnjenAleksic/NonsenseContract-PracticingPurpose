@@ -6,12 +6,21 @@ import "./modifier.sol";
 contract myContract is Modifier {
     error myContract_EtherNotSent();
 
-    uint256 private immutable i_minimum;
     address[] private depositors;
+    uint256 private immutable i_minimum;
 
     address private myAddress = 0xc8338F5BE9c6D9562ab76000f86dC1cd5Fbae0b1;
     uint160 x = uint160(myAddress);
 
+    //Having fun with strings and bytes!
+    string sc =
+        "Smart"
+        "Contract";
+    bytes public scBytes = bytes(sc);
+    bytes public scBytesX2 = bytes.concat(scBytes, scBytes);
+    string public scX2 = string(scBytesX2);
+
+    //Some functions
     constructor(uint256 _minimum) Modifier(_minimum) {
         i_minimum = _minimum;
     }
