@@ -12,13 +12,19 @@ contract myContract is Modifier {
     address private myAddress = 0xc8338F5BE9c6D9562ab76000f86dC1cd5Fbae0b1;
     uint160 x = uint160(myAddress);
 
-    //Having fun with strings and bytes!
+    //Strings and bytes!
     string sc =
         "Smart"
         "Contract";
     bytes public scBytes = bytes(sc);
     bytes public scBytesX2 = bytes.concat(scBytes, scBytes);
     string public scX2 = string(scBytesX2);
+
+    //Nums and bytes!
+    uint256 number = 50;
+    bytes32 public numBytes = bytes32(number);
+    bytes32 public addedNumBytes = bytes32(number + number);
+    uint256 public addedNumbers = uint256(addedNumBytes);
 
     //Some functions
     constructor(uint256 _minimum) Modifier(_minimum) {
